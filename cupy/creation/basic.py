@@ -7,7 +7,7 @@ def empty(shape, dtype=float, order='C'):
     Args:
         shape (tuple of ints): Dimensionalities of the array.
         dtype: Data type specifier.
-        order ({'C', 'F'}): Row-major (C-style) or column-major
+        order ('C', 'F'): Row-major (C-style) or column-major
             (Fortran-style) order.
 
     Returns:
@@ -134,7 +134,7 @@ def zeros(shape, dtype=float, order='C'):
     Args:
         shape (tuple of ints): Dimensionalities of the array.
         dtype: Data type specifier.
-        order ({'C', 'F'}): Row-major (C-style) or column-major
+        order ('C', 'F'): Row-major (C-style) or column-major
             (Fortran-style) order.
 
     Returns:

@@ -184,7 +184,7 @@ class csr_matrix(compressed._compressed_sparse_matrix):
         """Returns a dense matrix representing the same value.
 
         Args:
-            order ({'C', 'F', None}): Whether to store data in C (row-major)
+            order ('C', 'F', None): Whether to store data in C (row-major)
                 order or F (column-major) order. Default is C-order.
             out: Not supported.
 

@@ -157,7 +157,7 @@ def meshgrid(*xi, **kwargs):
     Args:
         xi (tuple of ndarrays): 1-D arrays representing the coordinates
             of a grid.
-        indexing ({'xy', 'ij'}, optional): Cartesian ('xy', default) or
+        indexing ('xy' or 'ij', optional): Cartesian ('xy', default) or
             matrix ('ij') indexing of output.
         copy (bool, optional): If ``False``, a view
             into the original arrays are returned. Default is True.

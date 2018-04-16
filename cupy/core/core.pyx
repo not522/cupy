@@ -62,7 +62,7 @@ cdef class ndarray:
         shape (tuple of ints): Length of axes.
         dtype: Data type. It must be an argument of :class:`numpy.dtype`.
         memptr (cupy.cuda.MemoryPointer): Pointer to the array content head.
-        order ({'C', 'F'}): Row-major (C-style) or column-major
+        order ('C', 'F'): Row-major (C-style) or column-major
             (Fortran-style) order.
 
     Attributes:
@@ -280,7 +280,7 @@ cdef class ndarray:
 
         Args:
             dtype: Type specifier.
-            order ({'C', 'F', 'A', 'K'}): Row-major (C-style) or column-major
+            order ('C', 'F', 'A', 'K'): Row-major (C-style) or column-major
                 (Fortran-style) order.
                 When ``order`` is 'A', it uses 'F' if ``a`` is column-major and
                 uses 'C' otherwise.
@@ -362,7 +362,7 @@ cdef class ndarray:
         to the current device.
 
         Args:
-            order ({'C', 'F', 'A', 'K'}): Row-major (C-style) or column-major
+            order ('C', 'F', 'A', 'K'): Row-major (C-style) or column-major
                 (Fortran-style) order.
                 When ``order`` is 'A', it uses 'F' if ``a`` is column-major and
                 uses 'C' otherwise.

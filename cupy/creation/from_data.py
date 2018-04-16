@@ -12,7 +12,7 @@ def array(obj, dtype=None, copy=True, order='K', subok=False, ndmin=0):
         dtype: Data type specifier.
         copy (bool): If ``False``, this function returns ``obj`` if possible.
             Otherwise this function always returns a new array.
-        order ({'C', 'F', 'A', 'K'}): Row-major (C-style) or column-major
+        order ('C', 'F', 'A', 'K'): Row-major (C-style) or column-major
             (Fortran-style) order.
             When ``order`` is 'A', it uses 'F' if ``a`` is column-major and
             uses 'C' otherwise.
@@ -103,7 +103,7 @@ def copy(a, order='K'):
 
     Args:
         a (cupy.ndarray): The source array.
-        order ({'C', 'F', 'A', 'K'}): Row-major (C-style) or column-major
+        order ('C', 'F', 'A', 'K'): Row-major (C-style) or column-major
             (Fortran-style) order.
             When `order` is 'A', it uses 'F' if `a` is column-major and
             uses `C` otherwise.
