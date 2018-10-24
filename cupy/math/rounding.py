@@ -1,11 +1,33 @@
 from cupy import core
+from cupy.core import fusion
 from cupy.math import ufunc
 
-# TODO(okuta): Implement around
+
+@fusion._ufunc_wrapper(core.core._round_ufunc)
+def around(a, decimals=0, out=None):
+    """Rounds to the given number of decimals.
+
+    Args:
+        a (cupy.ndarray): The source array.
+        decimals (int): umber of decimal places to round to (default: 0).
+            If decimals is negative, it specifies the number of positions to
+            the left of the decimal point.
+        out (cupy.ndarray): Output array.
+
+    Returns:
+        cupy.ndarray: Rounded array.
+
+    .. seealso:: :func:`numpy.around`
+
+    """
+    a = core.array(a, copy=False)
+    return a.round(decimals, out)
 
 
-# TODO(beam2d): Implement it
-# round_ = around
+@fusion._ufunc_wrapper(core.core._round_ufunc)
+def round_(a, decimals=0, out=None):
+    a = core.array(a, copy=False)
+    return a.round(decimals, out)
 
 
 rint = ufunc.create_math_ufunc(
@@ -23,7 +45,7 @@ floor = ufunc.create_math_ufunc(
 
     .. seealso:: :data:`numpy.floor`
 
-    ''')
+    ''', support_complex=False)
 
 
 ceil = ufunc.create_math_ufunc(
@@ -32,7 +54,7 @@ ceil = ufunc.create_math_ufunc(
 
     .. seealso:: :data:`numpy.ceil`
 
-    ''')
+    ''', support_complex=False)
 
 
 trunc = ufunc.create_math_ufunc(
@@ -41,7 +63,7 @@ trunc = ufunc.create_math_ufunc(
 
     .. seealso:: :data:`numpy.trunc`
 
-    ''')
+    ''', support_complex=False)
 
 
 fix = core.create_ufunc(

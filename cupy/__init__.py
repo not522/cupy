@@ -33,6 +33,7 @@ original error: {}'''.format(exc_info[1]))  # NOQA
 
 
 from cupy import cuda
+import cupyx
 
 
 def is_available():
@@ -43,7 +44,7 @@ __version__ = _version.__version__
 
 
 from cupy import binary  # NOQA
-from cupy.core import fusion  # NOQA
+import cupy.core.fusion  # NOQA
 from cupy import creation  # NOQA
 from cupy import fft  # NOQA
 from cupy import indexing  # NOQA
@@ -67,7 +68,22 @@ from cupy.core import ufunc  # NOQA
 # =============================================================================
 # Constants (borrowed from NumPy)
 # =============================================================================
+from numpy import e  # NOQA
+from numpy import euler_gamma  # NOQA
+from numpy import Inf  # NOQA
+from numpy import inf  # NOQA
+from numpy import Infinity  # NOQA
+from numpy import infty  # NOQA
+from numpy import NAN  # NOQA
+from numpy import NaN  # NOQA
+from numpy import nan  # NOQA
 from numpy import newaxis  # == None  # NOQA
+from numpy import NINF  # NOQA
+from numpy import NZERO  # NOQA
+from numpy import pi  # NOQA
+from numpy import PINF  # NOQA
+from numpy import PZERO  # NOQA
+
 
 # =============================================================================
 # Data types (borrowed from NumPy)
@@ -232,7 +248,7 @@ from cupy.creation.basic import ones_like  # NOQA
 from cupy.creation.basic import zeros  # NOQA
 from cupy.creation.basic import zeros_like  # NOQA
 
-from cupy.core.fusion import copy  # NOQA
+from cupy.creation.from_data import copy  # NOQA
 from cupy.creation.from_data import array  # NOQA
 from cupy.creation.from_data import asanyarray  # NOQA
 from cupy.creation.from_data import asarray  # NOQA
@@ -247,6 +263,9 @@ from cupy.creation.ranges import ogrid  # NOQA
 
 from cupy.creation.matrix import diag  # NOQA
 from cupy.creation.matrix import diagflat  # NOQA
+from cupy.creation.matrix import tri  # NOQA
+from cupy.creation.matrix import tril  # NOQA
+from cupy.creation.matrix import triu  # NOQA
 
 # -----------------------------------------------------------------------------
 # Array manipulation routines
@@ -288,6 +307,8 @@ from cupy.manipulation.split import vsplit  # NOQA
 from cupy.manipulation.tiling import repeat  # NOQA
 from cupy.manipulation.tiling import tile  # NOQA
 
+from cupy.manipulation.add_remove import unique  # NOQA
+
 from cupy.manipulation.rearrange import flip  # NOQA
 from cupy.manipulation.rearrange import fliplr  # NOQA
 from cupy.manipulation.rearrange import flipud  # NOQA
@@ -297,12 +318,12 @@ from cupy.manipulation.rearrange import rot90  # NOQA
 # -----------------------------------------------------------------------------
 # Binary operations
 # -----------------------------------------------------------------------------
-from cupy.core.fusion import bitwise_and  # NOQA
-from cupy.core.fusion import bitwise_or  # NOQA
-from cupy.core.fusion import bitwise_xor  # NOQA
-from cupy.core.fusion import invert  # NOQA
-from cupy.core.fusion import left_shift  # NOQA
-from cupy.core.fusion import right_shift  # NOQA
+from cupy.binary.elementwise import bitwise_and  # NOQA
+from cupy.binary.elementwise import bitwise_or  # NOQA
+from cupy.binary.elementwise import bitwise_xor  # NOQA
+from cupy.binary.elementwise import invert  # NOQA
+from cupy.binary.elementwise import left_shift  # NOQA
+from cupy.binary.elementwise import right_shift  # NOQA
 
 from cupy.binary.packing import packbits  # NOQA
 from cupy.binary.packing import unpackbits  # NOQA
@@ -405,11 +426,12 @@ from cupy.linalg.norms import trace  # NOQA
 # -----------------------------------------------------------------------------
 # Logic functions
 # -----------------------------------------------------------------------------
+from cupy.logic.comparison import allclose  # NOQA
 from cupy.logic.comparison import isclose  # NOQA
 
-from cupy.core.fusion import isfinite  # NOQA
-from cupy.core.fusion import isinf  # NOQA
-from cupy.core.fusion import isnan  # NOQA
+from cupy.logic.content import isfinite  # NOQA
+from cupy.logic.content import isinf  # NOQA
+from cupy.logic.content import isnan  # NOQA
 
 from cupy.logic.type_test import iscomplex  # NOQA
 from cupy.logic.type_test import iscomplexobj  # NOQA
@@ -426,105 +448,111 @@ def isscalar(num):
     return numpy.isscalar(num)
 
 
-from cupy.core.fusion import logical_and  # NOQA
-from cupy.core.fusion import logical_not  # NOQA
-from cupy.core.fusion import logical_or  # NOQA
-from cupy.core.fusion import logical_xor  # NOQA
+from cupy.logic.ops import logical_and  # NOQA
+from cupy.logic.ops import logical_not  # NOQA
+from cupy.logic.ops import logical_or  # NOQA
+from cupy.logic.ops import logical_xor  # NOQA
 
-from cupy.core.fusion import equal  # NOQA
-from cupy.core.fusion import greater  # NOQA
-from cupy.core.fusion import greater_equal  # NOQA
-from cupy.core.fusion import less  # NOQA
-from cupy.core.fusion import less_equal  # NOQA
-from cupy.core.fusion import not_equal  # NOQA
+from cupy.logic.comparison import equal  # NOQA
+from cupy.logic.comparison import greater  # NOQA
+from cupy.logic.comparison import greater_equal  # NOQA
+from cupy.logic.comparison import less  # NOQA
+from cupy.logic.comparison import less_equal  # NOQA
+from cupy.logic.comparison import not_equal  # NOQA
 
-from cupy.core.fusion import all  # NOQA
-from cupy.core.fusion import any  # NOQA
+from cupy.logic.truth import all  # NOQA
+from cupy.logic.truth import any  # NOQA
 
 # -----------------------------------------------------------------------------
 # Mathematical functions
 # -----------------------------------------------------------------------------
-from cupy.core.fusion import arccos  # NOQA
-from cupy.core.fusion import arcsin  # NOQA
-from cupy.core.fusion import arctan  # NOQA
-from cupy.core.fusion import arctan2  # NOQA
-from cupy.core.fusion import cos  # NOQA
-from cupy.core.fusion import deg2rad  # NOQA
-from cupy.core.fusion import degrees  # NOQA
-from cupy.core.fusion import hypot  # NOQA
-from cupy.core.fusion import rad2deg  # NOQA
-from cupy.core.fusion import radians  # NOQA
-from cupy.core.fusion import sin  # NOQA
-from cupy.core.fusion import tan  # NOQA
+from cupy.math.trigonometric import arccos  # NOQA
+from cupy.math.trigonometric import arcsin  # NOQA
+from cupy.math.trigonometric import arctan  # NOQA
+from cupy.math.trigonometric import arctan2  # NOQA
+from cupy.math.trigonometric import cos  # NOQA
+from cupy.math.trigonometric import deg2rad  # NOQA
+from cupy.math.trigonometric import degrees  # NOQA
+from cupy.math.trigonometric import hypot  # NOQA
+from cupy.math.trigonometric import rad2deg  # NOQA
+from cupy.math.trigonometric import radians  # NOQA
+from cupy.math.trigonometric import sin  # NOQA
+from cupy.math.trigonometric import tan  # NOQA
 
-from cupy.core.fusion import arccosh  # NOQA
-from cupy.core.fusion import arcsinh  # NOQA
-from cupy.core.fusion import arctanh  # NOQA
-from cupy.core.fusion import cosh  # NOQA
-from cupy.core.fusion import sinh  # NOQA
-from cupy.core.fusion import tanh  # NOQA
+from cupy.math.hyperbolic import arccosh  # NOQA
+from cupy.math.hyperbolic import arcsinh  # NOQA
+from cupy.math.hyperbolic import arctanh  # NOQA
+from cupy.math.hyperbolic import cosh  # NOQA
+from cupy.math.hyperbolic import sinh  # NOQA
+from cupy.math.hyperbolic import tanh  # NOQA
 
-from cupy.core.fusion import ceil  # NOQA
-from cupy.core.fusion import fix  # NOQA
-from cupy.core.fusion import floor  # NOQA
-from cupy.core.fusion import rint  # NOQA
-from cupy.core.fusion import trunc  # NOQA
+from cupy.math.rounding import around  # NOQA
+from cupy.math.rounding import ceil  # NOQA
+from cupy.math.rounding import fix  # NOQA
+from cupy.math.rounding import floor  # NOQA
+from cupy.math.rounding import rint  # NOQA
+from cupy.math.rounding import round_  # NOQA
+from cupy.math.rounding import trunc  # NOQA
 
-from cupy.core.fusion import prod  # NOQA
-from cupy.core.fusion import sum  # NOQA
+from cupy.math.sumprod import prod  # NOQA
+from cupy.math.sumprod import sum  # NOQA
 from cupy.math.sumprod import cumprod  # NOQA
 from cupy.math.sumprod import cumsum  # NOQA
 from cupy.math.window import blackman  # NOQA
 from cupy.math.window import hamming  # NOQA
 from cupy.math.window import hanning  # NOQA
 
+from cupy.math.explog import exp  # NOQA
+from cupy.math.explog import exp2  # NOQA
+from cupy.math.explog import expm1  # NOQA
+from cupy.math.explog import log  # NOQA
+from cupy.math.explog import log10  # NOQA
+from cupy.math.explog import log1p  # NOQA
+from cupy.math.explog import log2  # NOQA
+from cupy.math.explog import logaddexp  # NOQA
+from cupy.math.explog import logaddexp2  # NOQA
 
-from cupy.core.fusion import exp  # NOQA
-from cupy.core.fusion import exp2  # NOQA
-from cupy.core.fusion import expm1  # NOQA
-from cupy.core.fusion import log  # NOQA
-from cupy.core.fusion import log10  # NOQA
-from cupy.core.fusion import log1p  # NOQA
-from cupy.core.fusion import log2  # NOQA
-from cupy.core.fusion import logaddexp  # NOQA
-from cupy.core.fusion import logaddexp2  # NOQA
+from cupy.math.special import i0  # NOQA
+from cupy.math.special import sinc  # NOQA
 
-from cupy.core.fusion import copysign  # NOQA
-from cupy.core.fusion import frexp  # NOQA
-from cupy.core.fusion import ldexp  # NOQA
-from cupy.core.fusion import nextafter  # NOQA
-from cupy.core.fusion import signbit  # NOQA
+from cupy.math.floating import copysign  # NOQA
+from cupy.math.floating import frexp  # NOQA
+from cupy.math.floating import ldexp  # NOQA
+from cupy.math.floating import nextafter  # NOQA
+from cupy.math.floating import signbit  # NOQA
 
-from cupy.core.fusion import add  # NOQA
-from cupy.core.fusion import divide  # NOQA
-from cupy.core.fusion import floor_divide  # NOQA
-from cupy.core.fusion import fmod  # NOQA
-from cupy.core.fusion import modf  # NOQA
-from cupy.core.fusion import multiply  # NOQA
-from cupy.core.fusion import negative  # NOQA
-from cupy.core.fusion import power  # NOQA
-from cupy.core.fusion import reciprocal  # NOQA
-from cupy.core.fusion import remainder  # NOQA
-from cupy.core.fusion import remainder as mod  # NOQA
-from cupy.core.fusion import subtract  # NOQA
-from cupy.core.fusion import true_divide  # NOQA
+from cupy.math.arithmetic import add  # NOQA
+from cupy.math.arithmetic import divide  # NOQA
+from cupy.math.arithmetic import divmod  # NOQA
+from cupy.math.arithmetic import floor_divide  # NOQA
+from cupy.math.arithmetic import fmod  # NOQA
+from cupy.math.arithmetic import modf  # NOQA
+from cupy.math.arithmetic import multiply  # NOQA
+from cupy.math.arithmetic import negative  # NOQA
+from cupy.math.arithmetic import power  # NOQA
+from cupy.math.arithmetic import reciprocal  # NOQA
+from cupy.math.arithmetic import remainder  # NOQA
+from cupy.math.arithmetic import remainder as mod  # NOQA
+from cupy.math.arithmetic import subtract  # NOQA
+from cupy.math.arithmetic import true_divide  # NOQA
 
-# TODO(okuta): implement fusion function
-from cupy.core import angle  # NOQA
-from cupy.core import conj  # NOQA
-from cupy.core import imag  # NOQA
-from cupy.core import real  # NOQA
+from cupy.math.arithmetic import angle  # NOQA
+from cupy.math.arithmetic import conj  # NOQA
+from cupy.math.arithmetic import imag  # NOQA
+from cupy.math.arithmetic import real  # NOQA
 
-from cupy.core.fusion import abs  # NOQA
-from cupy.core.fusion import absolute  # NOQA
-from cupy.core.fusion import clip  # NOQA
-from cupy.core.fusion import fmax  # NOQA
-from cupy.core.fusion import fmin  # NOQA
-from cupy.core.fusion import maximum  # NOQA
-from cupy.core.fusion import minimum  # NOQA
-from cupy.core.fusion import sign  # NOQA
-from cupy.core.fusion import sqrt  # NOQA
-from cupy.core.fusion import square  # NOQA
+from cupy.math.misc import absolute as abs  # NOQA
+from cupy.math.misc import absolute  # NOQA
+from cupy.math.misc import cbrt  # NOQA
+from cupy.math.misc import clip  # NOQA
+from cupy.math.misc import fmax  # NOQA
+from cupy.math.misc import fmin  # NOQA
+from cupy.math.misc import maximum  # NOQA
+from cupy.math.misc import minimum  # NOQA
+from cupy.math.misc import nan_to_num  # NOQA
+from cupy.math.misc import sign  # NOQA
+from cupy.math.misc import sqrt  # NOQA
+from cupy.math.misc import square  # NOQA
 
 # -----------------------------------------------------------------------------
 # Padding
@@ -539,7 +567,7 @@ from cupy.sorting.count import count_nonzero  # NOQA
 from cupy.sorting.search import flatnonzero  # NOQA
 from cupy.sorting.search import nonzero  # NOQA
 
-from cupy.core.fusion import where  # NOQA
+from cupy.sorting.search import where  # NOQA
 from cupy.sorting.search import argmax  # NOQA
 from cupy.sorting.search import argmin  # NOQA
 
@@ -553,14 +581,18 @@ from cupy.sorting.sort import sort  # NOQA
 # -----------------------------------------------------------------------------
 # Statistics
 # -----------------------------------------------------------------------------
-from cupy.core.fusion import amax  # NOQA
-from cupy.core.fusion import amax as max  # NOQA
-from cupy.core.fusion import amin  # NOQA
-from cupy.core.fusion import amin as min  # NOQA
+from cupy.statistics.correlation import corrcoef  # NOQA
+from cupy.statistics.correlation import cov  # NOQA
+
+from cupy.statistics.order import amax  # NOQA
+from cupy.statistics.order import amax as max  # NOQA
+from cupy.statistics.order import amin  # NOQA
+from cupy.statistics.order import amin as min  # NOQA
 from cupy.statistics.order import nanmax  # NOQA
 from cupy.statistics.order import nanmin  # NOQA
 from cupy.statistics.order import percentile  # NOQA
 
+from cupy.statistics.meanvar import average  # NOQA
 from cupy.statistics.meanvar import mean  # NOQA
 from cupy.statistics.meanvar import std  # NOQA
 from cupy.statistics.meanvar import var  # NOQA
@@ -581,14 +613,18 @@ from cupy.util import clear_memo  # NOQA
 from cupy.util import memoize  # NOQA
 
 from cupy.core import ElementwiseKernel  # NOQA
+from cupy.core import RawKernel  # NOQA
 from cupy.core import ReductionKernel  # NOQA
 
+# -----------------------------------------------------------------------------
+# DLPack
+# -----------------------------------------------------------------------------
+
+from cupy.core import fromDlpack  # NOQA
 
 # The following function is left for backward compatibility.
 # New CuPy specific routines should reside in cupyx package.
 from cupy.ext.scatter import scatter_add  # NOQA
-
-import cupyx
 
 
 def asnumpy(a, stream=None):
@@ -638,12 +674,13 @@ def get_array_module(*args):
 
     """
     for arg in args:
-        if isinstance(arg, (ndarray, sparse.spmatrix)):
+        if isinstance(arg, (ndarray, sparse.spmatrix,
+                            cupy.core.fusion.FusionVarPython)):
             return _cupy
     return numpy
 
 
-fuse = fusion.fuse
+fuse = cupy.core.fusion.fuse
 
 disable_experimental_feature_warning = False
 

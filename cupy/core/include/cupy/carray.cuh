@@ -122,7 +122,7 @@ public:
     } else if (x.iszero()) {
       ret_raw_.x = (y_raw_.x & 0x8000u) + 1;
     } else if (!(x_raw_.x & 0x8000u)) {
-      if (x_raw_.x > y_raw_.x) {
+      if (static_cast<signed short>(x_raw_.x) > static_cast<signed short>(y_raw_.x)) {
         ret_raw_.x = x_raw_.x - 1;
       } else {
         ret_raw_.x = x_raw_.x + 1;
@@ -149,6 +149,12 @@ __device__ float16 min(float16 x, float16 y) {
 }
 __device__ float16 max(float16 x, float16 y) {
   return float16(max(float(x), float(y)));
+}
+__device__ float16 fmin(float16 x, float16 y) {
+  return float16(fmin(float(x), float(y)));
+}
+__device__ float16 fmax(float16 x, float16 y) {
+  return float16(fmax(float(x), float(y)));
 }
 __device__ int iszero(float16 x) {return x.iszero();}
 __device__ int isnan(float16 x) {return x.isnan();}
@@ -277,16 +283,28 @@ public:
       size_t a = static_cast<size_t>(i);
       for (int dim = ndim; --dim > 0; ) {
         size_t s = static_cast<size_t>(shape_[dim]);
-        index_[dim] = a % s;
-        a /= s;
+        if (s & (s - 1)) {
+          size_t t = a / s;
+          index_[dim] = a - t * s;
+          a = t;
+        } else { // exp of 2
+          index_[dim] = a & (s - 1);
+          a >>= __popcll(s - 1);
+        }
       }
       index_[0] = a;
     } else {
       unsigned int a = static_cast<unsigned int>(i);
       for (int dim = ndim; --dim > 0; ) {
         unsigned int s = static_cast<unsigned int>(shape_[dim]);
-        index_[dim] = a % s;
-        a /= s;
+        if (s & (s - 1)) {
+          unsigned int t = a / s;
+          index_[dim] = a - t * s;
+          a = t;
+        } else { // exp of 2
+          index_[dim] = a & (s - 1);
+          a >>= __popc(s - 1);
+        }
       }
       index_[0] = a;
     }

@@ -3,7 +3,7 @@
 #ifndef INCLUDE_GUARD_CUPY_CUDA_H
 #define INCLUDE_GUARD_CUPY_CUDA_H
 
-#include "cupy_stdint.h"
+#include <stdint.h>
 
 #ifndef CUPY_NO_CUDA
 #include <cuda.h>
@@ -248,6 +248,10 @@ const char* cudaGetErrorName(...) {
 
 const char* cudaGetErrorString(...) {
     return NULL;
+}
+
+cudaError_t cudaGetLastError() {
+    return cudaSuccess;
 }
 
 
@@ -636,6 +640,14 @@ cublasStatus_t cublasDtrsm(...) {
     return CUBLAS_STATUS_SUCCESS;
 }
 
+cublasStatus_t cublasCtrsm(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasZtrsm(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
 
 // BLAS extension
 cublasStatus_t cublasSgeam(...) {
@@ -654,10 +666,49 @@ cublasStatus_t cublasSgetrfBatched(...) {
     return CUBLAS_STATUS_SUCCESS;
 }
 
+cublasStatus_t cublasDgetrfBatched(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasCgetrfBatched(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasZgetrfBatched(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
 cublasStatus_t cublasSgetriBatched(...) {
     return CUBLAS_STATUS_SUCCESS;
 }
 
+cublasStatus_t cublasDgetriBatched(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasCgetriBatched(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasZgetriBatched(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasStrttp(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasDtrttp(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasStpttr(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
+
+cublasStatus_t cublasDtpttr(...) {
+    return CUBLAS_STATUS_SUCCESS;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // curand.h

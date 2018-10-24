@@ -15,8 +15,6 @@ from cupy import testing
 @testing.gpu
 class TestEigenvalue(unittest.TestCase):
 
-    _multiprocess_can_split_ = True
-
     @testing.for_all_dtypes(no_float16=True, no_complex=True)
     @testing.numpy_cupy_allclose(rtol=1e-3, atol=1e-4)
     def test_eigh(self, xp, dtype):
@@ -46,6 +44,22 @@ class TestEigenvalue(unittest.TestCase):
 
         testing.assert_allclose(w, nw, rtol=1e-3, atol=1e-4)
         testing.assert_allclose(v, nv, rtol=1e-3, atol=1e-4)
+
+    @testing.for_dtypes('FD')
+    @testing.numpy_cupy_allclose(rtol=1e-3, atol=1e-4)
+    def test_eigh_complex(self, xp, dtype):
+        a = xp.array([[1, 2j, 3], [4j, 5, 6j], [7, 8j, 9]], dtype)
+        w, v = xp.linalg.eigh(a, UPLO=self.UPLO)
+
+        # Order of eigen values is not defined.
+        # They must be sorted to compare them.
+        if xp is numpy:
+            inds = numpy.argsort(w)
+        else:
+            inds = cupy.array(numpy.argsort(w.get()))
+        w = w[inds]
+        v = v[inds]
+        return xp.concatenate([w[None], v])
 
     @testing.for_all_dtypes(no_float16=True, no_complex=True)
     @testing.numpy_cupy_allclose(rtol=1e-3, atol=1e-4)
