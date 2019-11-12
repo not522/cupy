@@ -221,6 +221,15 @@ def affine_transform(input, matrix, offset=0.0, output_shape=None, output=None,
         matrix = matrix[:-1, :-1]
 
     if mode == 'opencv':
+        if matrix.ndim + 1 == input.ndim:
+            matrix_ = cupy.zeros((input.ndim, input.ndim), dtype=matrix.dtype)
+            matrix_[:-1, :-1] = matrix
+            matrix_[-1, -1] = 1
+            offset_ = cupy.zeros(input.ndim, dtype=matrix.dtype)
+            offset_[:-1] = offset
+            matrix = matrix_
+            offset = offset_
+
         m = cupy.zeros((input.ndim + 1, input.ndim + 1))
         m[:-1, :-1] = matrix
         m[:-1, -1] = offset
@@ -230,6 +239,10 @@ def affine_transform(input, matrix, offset=0.0, output_shape=None, output=None,
         m[:2, :2] = cupy.roll(m[:2, :2], 1, axis=1)
         matrix = m[:-1, :-1]
         offset = m[:-1, -1]
+
+        if output_shape is not None:
+            if len(output_shape) + 1 == len(input.shape):
+                output_shape = list(output_shape) + [input.shape[-1]]
 
     if output_shape is None:
         output_shape = input.shape

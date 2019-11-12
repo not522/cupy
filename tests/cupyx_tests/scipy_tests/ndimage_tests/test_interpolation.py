@@ -157,6 +157,29 @@ class TestAffineTransformOpenCV(unittest.TestCase):
         else:
             return cv2.warpAffine(a, matrix, (a.shape[1], a.shape[0]))
 
+    @testing.for_float_dtypes(no_float16=True)
+    @testing.numpy_cupy_allclose(atol=0.3)
+    def test_affine_transform_opencv_3d(self, xp, dtype):
+        a = testing.shaped_random((100, 100, 3), xp, dtype)
+        matrix = testing.shaped_random((2, 3), xp, dtype)
+        if xp == cupy:
+            return cupyx.scipy.ndimage.affine_transform(a, matrix, order=1,
+                                                        mode='opencv')
+        else:
+            return cv2.warpAffine(a, matrix, (a.shape[1], a.shape[0]))
+
+    @testing.for_float_dtypes(no_float16=True)
+    @testing.numpy_cupy_allclose(atol=0.3)
+    def test_affine_transform_opencv_3d_output_shape(self, xp, dtype):
+        a = testing.shaped_random((100, 100, 3), xp, dtype)
+        matrix = testing.shaped_random((2, 3), xp, dtype)
+        output_shape = a.shape[:2]
+        if xp == cupy:
+            return cupyx.scipy.ndimage.affine_transform(
+                a, matrix, order=1, output_shape=output_shape, mode='opencv')
+        else:
+            return cv2.warpAffine(a, matrix, output_shape)
+
 
 @testing.parameterize(*testing.product({
     'angle': [-10, 1000],
